@@ -42,6 +42,11 @@
     animation: float 3s ease-in-out infinite;
 }
 
+.btn btn-primary:hover{
+    color: black;
+    
+}
+
 @keyframes float {
 
     0%,

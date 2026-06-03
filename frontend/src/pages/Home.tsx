@@ -118,6 +118,9 @@ export function Home() {
             <Link to="/view-feedback" className="text-gray-700 hover:text-primary-600 font-medium transition">
               Analytics
             </Link>
+            <Link to="/admin/dashboard" className="text-gray-700 hover:text-primary-600 font-medium transition">
+              Admin Portal
+            </Link>
             <a href="#" className="text-gray-700 hover:text-primary-600 font-medium transition">
               About
             </a>
@@ -303,7 +306,6 @@ export function Home() {
 
       {/* Footer */}
       <footer className="bg-gradient-to-r from-gray-900 via-primary-900 to-gray-900 text-white py-12 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-primary-500 rounded-full blur-3xl opacity-5 -mr-32 -mt-32"></div>
         <div className="container relative z-10">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
             <div>
@@ -312,6 +314,7 @@ export function Home() {
                 <li><Link to="/events" className="hover:text-primary-400 transition-colors">Events</Link></li>
                 <li><Link to="/feedback" className="hover:text-primary-400 transition-colors">Feedback</Link></li>
                 <li><Link to="/view-feedback" className="hover:text-primary-400 transition-colors">Analytics</Link></li>
+                <li><Link to="/admin/dashboard" className="hover:text-primary-400 transition-colors">Admin Portal</Link></li>
               </ul>
             </div>
             <div>

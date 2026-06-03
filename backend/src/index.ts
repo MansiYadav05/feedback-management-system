@@ -4,6 +4,8 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import eventRoutes from './routes/eventRoutes.js';
 import feedbackRoutes from './routes/feedbackRoutes.js';
+import authRoutes from './routes/authRoutes.js';
+import adminRoutes from './routes/adminRoutes.js';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
 
 dotenv.config();
@@ -41,8 +43,10 @@ app.get('/test', (req, res) => {
 });
 
 // Routes
+app.use('/auth', authRoutes);
 app.use('/events', eventRoutes);
 app.use('/feedback', feedbackRoutes);
+app.use('/admin', adminRoutes);
 
 // Error handling
 app.use(notFoundHandler);
