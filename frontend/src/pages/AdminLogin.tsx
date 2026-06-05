@@ -66,9 +66,9 @@ export function AdminLogin() {
                 localStorage.setItem('adminToken', response.data.token)
                 localStorage.setItem('adminUser', JSON.stringify(response.data.user))
 
-                toast.success(isLogin 
-                    ? `Welcome back, ${response.data.user.name}!` 
-                    : 'Admin account created successfully!', 
+                toast.success(isLogin
+                    ? `Welcome back, ${response.data.user.name}!`
+                    : 'Admin account created successfully!',
                     { position: "top-center" }
                 )
 
@@ -92,20 +92,20 @@ export function AdminLogin() {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-primary-100 flex items-center justify-center py-12 px-4">
+        <div className="min-h-screen bg-gradient-to-br from-sky-50 via-white to-cyan-50 flex items-center justify-center py-12 px-4">
             <div className="w-full max-w-md">
                 {/* Logo */}
                 <div className="text-center mb-8">
-                    <div className="inline-block p-3 bg-gradient-to-r from-primary-500 to-primary-600 rounded-lg mb-4">
+                    <div className="inline-block p-3 bg-gradient-to-r from-sky-500 via-cyan-500 to-emerald-500 rounded-lg mb-4 shadow-lg shadow-cyan-500/50">
                         <FaUser className="text-3xl text-white" />
                     </div>
-                    <h1 className="text-4xl font-bold bg-gradient-to-r from-primary-600 to-primary-700 text-transparent bg-clip-text">
-                        EventHub Admin
+                    <h1 className="text-4xl font-bold bg-gradient-to-r from-sky-600 via-cyan-500 to-emerald-600 text-transparent bg-clip-text">
+                        🎯 EventHub Admin
                     </h1>
                 </div>
 
                 {/* Card */}
-                <div className="bg-white rounded-xl shadow-xl p-8 border border-primary-100">
+                <div className="bg-white rounded-2xl shadow-2xl p-8 border-2 border-sky-100">
                     {/* Toggle */}
                     <div className="flex gap-4 mb-8">
                         <button
@@ -114,8 +114,8 @@ export function AdminLogin() {
                                 setErrors({})
                             }}
                             className={`flex-1 py-3 px-4 rounded-lg font-semibold transition-all ${isLogin
-                                    ? 'bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-lg'
-                                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                ? 'bg-gradient-to-r from-sky-500 to-cyan-500 text-white shadow-lg shadow-cyan-500/50'
+                                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                                 }`}
                         >
                             Login
@@ -126,8 +126,8 @@ export function AdminLogin() {
                                 setErrors({})
                             }}
                             className={`flex-1 py-3 px-4 rounded-lg font-semibold transition-all ${!isLogin
-                                    ? 'bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-lg'
-                                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                ? 'bg-gradient-to-r from-sky-500 to-cyan-500 text-white shadow-lg shadow-cyan-500/50'
+                                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                                 }`}
                         >
                             Register
@@ -141,14 +141,14 @@ export function AdminLogin() {
                             <div>
                                 <label className="block text-sm font-semibold text-gray-700 mb-2">Full Name</label>
                                 <div className="relative">
-                                    <FaUser className="absolute left-4 top-1/2 -translate-y-1/2 text-primary-500" />
+                                    <FaUser className="absolute left-4 top-1/2 -translate-y-1/2 text-sky-500" />
                                     <input
                                         type="text"
                                         name="name"
                                         value={formData.name}
                                         onChange={handleChange}
                                         placeholder="Enter your name"
-                                        className={`w-full pl-11 pr-4 py-3 border-2 rounded-lg focus:outline-none focus:border-primary-500 transition ${errors.name ? 'border-red-500' : 'border-gray-200'
+                                        className={`w-full pl-11 pr-4 py-3 border-2 rounded-lg focus:outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-200 transition ${errors.name ? 'border-red-500' : 'border-sky-200'
                                             }`}
                                     />
                                 </div>
@@ -160,14 +160,14 @@ export function AdminLogin() {
                         <div>
                             <label className="block text-sm font-semibold text-gray-700 mb-2">Email Address</label>
                             <div className="relative">
-                                <FaEnvelope className="absolute left-4 top-1/2 -translate-y-1/2 text-primary-500" />
+                                <FaEnvelope className="absolute left-4 top-1/2 -translate-y-1/2 text-sky-500" />
                                 <input
                                     type="email"
                                     name="email"
                                     value={formData.email}
                                     onChange={handleChange}
                                     placeholder="admin@example.com"
-                                    className={`w-full pl-11 pr-4 py-3 border-2 rounded-lg focus:outline-none focus:border-primary-500 transition ${errors.email ? 'border-red-500' : 'border-gray-200'
+                                    className={`w-full pl-11 pr-4 py-3 border-2 rounded-lg focus:outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-200 transition ${errors.email ? 'border-red-500' : 'border-sky-200'
                                         }`}
                                 />
                             </div>
@@ -178,14 +178,14 @@ export function AdminLogin() {
                         <div>
                             <label className="block text-sm font-semibold text-gray-700 mb-2">Password</label>
                             <div className="relative">
-                                <FaLock className="absolute left-4 top-1/2 -translate-y-1/2 text-primary-500" />
+                                <FaLock className="absolute left-4 top-1/2 -translate-y-1/2 text-sky-500" />
                                 <input
                                     type="password"
                                     name="password"
                                     value={formData.password}
                                     onChange={handleChange}
                                     placeholder="••••••••"
-                                    className={`w-full pl-11 pr-4 py-3 border-2 rounded-lg focus:outline-none focus:border-primary-500 transition ${errors.password ? 'border-red-500' : 'border-gray-200'
+                                    className={`w-full pl-11 pr-4 py-3 border-2 rounded-lg focus:outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-200 transition ${errors.password ? 'border-red-500' : 'border-sky-200'
                                         }`}
                                 />
                             </div>
@@ -196,7 +196,7 @@ export function AdminLogin() {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="w-full bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white font-bold py-3 px-4 rounded-lg transition-all duration-200 hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                            className="w-full bg-gradient-to-r from-sky-500 via-cyan-500 to-emerald-500 hover:shadow-lg hover:shadow-cyan-500/50 text-white font-bold py-3 px-4 rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                         >
                             {loading ? 'Processing...' : isLogin ? 'Login' : 'Register'}
                             {!loading && <FaArrowRight className="text-sm" />}
@@ -214,7 +214,7 @@ export function AdminLogin() {
                                     setIsLogin(!isLogin)
                                     setErrors({})
                                 }}
-                                className="text-primary-600 font-semibold hover:text-primary-700 transition"
+                                className="text-sky-600 font-semibold hover:text-sky-700 transition"
                             >
                                 {isLogin ? 'Create one' : 'Login here'}
                             </button>
@@ -226,7 +226,7 @@ export function AdminLogin() {
                 <div className="mt-6 text-center">
                     <Link
                         to="/"
-                        className="text-primary-600 hover:text-primary-700 font-semibold flex items-center justify-center gap-2 transition"
+                        className="text-sky-600 hover:text-sky-700 font-semibold flex items-center justify-center gap-2 transition"
                     >
                         ← Back to Home
                     </Link>

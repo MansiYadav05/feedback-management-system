@@ -22,6 +22,10 @@ const userSchema = new mongoose.Schema(
             enum: ['admin', 'organizer', 'attendee'],
             default: 'attendee',
         },
+        isApproved: {
+            type: Boolean,
+            default: true,
+        },
     },
     {
         timestamps: true,

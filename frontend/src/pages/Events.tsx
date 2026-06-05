@@ -38,20 +38,18 @@ export function Events() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col justify-between">
+    <div className="min-h-screen flex flex-col justify-between" style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)' }}>
       <div>
         {/* Header */}
-        <div className="bg-gradient-to-br from-primary-50 via-white to-primary-100 border-b border-primary-100">
+        <div className="bg-gradient-to-r from-sky-600 via-cyan-500 to-emerald-500 border-b border-cyan-300/30">
           <div className="container py-12 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div>
-              <h1 className="text-4xl font-bold bg-gradient-to-r from-primary-600 to-primary-700 bg-clip-text text-transparent mb-2">
-                Events Directory
-              </h1>
-              <p className="text-gray-600 text-lg">Browse available events and provide your valuable feedback</p>
+              <h1 className="text-4xl font-bold text-white mb-2">👀 Events Directory</h1>
+              <p className="text-sky-100 text-lg">Browse available events and provide your valuable feedback</p>
             </div>
-            <Link 
-              to="/" 
-              className="btn btn-secondary inline-flex items-center gap-2 bg-white"
+            <Link
+              to="/"
+              className="btn btn-secondary inline-flex items-center gap-2 bg-white text-sky-600 hover:bg-sky-50 font-semibold px-6 py-3 rounded-lg shadow-lg hover:shadow-xl transition"
             >
               <FaArrowLeft className="text-sm" />
               Back to Home
@@ -63,50 +61,50 @@ export function Events() {
         <div className="container py-12">
           {loading ? (
             <div className="flex justify-center items-center py-24">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
-              <span className="ml-3 text-gray-600 font-medium">Loading events...</span>
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-cyan-500"></div>
+              <span className="ml-3 text-sky-100 font-medium">Loading events...</span>
             </div>
           ) : error ? (
-            <div className="bg-red-50 border border-red-200 text-red-700 px-6 py-4 rounded-lg text-center max-w-xl mx-auto shadow-md">
+            <div className="bg-red-50/20 border border-red-400/50 text-red-300 px-6 py-4 rounded-lg text-center max-w-xl mx-auto shadow-md backdrop-blur">
               <p className="font-semibold mb-2">{error}</p>
-              <button 
+              <button
                 onClick={() => window.location.reload()}
-                className="btn btn-primary btn-sm mt-2"
+                className="btn btn-primary btn-sm mt-2 bg-gradient-to-r from-sky-500 to-cyan-500 text-white font-semibold px-4 py-2 rounded-lg hover:shadow-lg transition"
               >
                 Retry
               </button>
             </div>
           ) : events.length === 0 ? (
-            <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-12 text-center max-w-lg mx-auto">
-              <p className="text-gray-500 text-lg mb-6">No events are currently scheduled.</p>
-              <Link to="/admin/dashboard" className="btn btn-primary">
+            <div className="bg-white/10 rounded-2xl backdrop-blur border border-sky-400/30 shadow-lg p-12 text-center max-w-lg mx-auto">
+              <p className="text-sky-200 text-lg mb-6">No events are currently scheduled.</p>
+              <Link to="/admin/dashboard" className="btn btn-primary bg-gradient-to-r from-sky-500 to-cyan-500 text-white font-semibold px-6 py-3 rounded-lg hover:shadow-lg transition">
                 Add an Event (Admin)
               </Link>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {events.map((event) => (
-                <article key={event._id} className="bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden flex flex-col justify-between">
+                <article key={event._id} className="bg-white/10 rounded-2xl border-2 border-sky-400/30 shadow-lg hover:shadow-2xl hover:border-cyan-400 hover:-translate-y-2 transition-all duration-300 overflow-hidden flex flex-col justify-between backdrop-blur hover:shadow-cyan-400/30">
+                  <div className="h-1 bg-gradient-to-r from-sky-500 via-cyan-500 to-emerald-500"></div>
                   <div className="p-6">
                     <div className="flex justify-between items-start mb-3">
-                      <h3 className="text-xl font-bold text-gray-900 line-clamp-1">{event.title}</h3>
-                      <span className={`px-2.5 py-1 text-xs font-semibold rounded-full uppercase ${
-                        event.status === 'upcoming' ? 'bg-blue-50 text-blue-600 border border-blue-200' :
-                        event.status === 'ongoing' ? 'bg-green-50 text-green-600 border border-green-200' :
-                        event.status === 'completed' ? 'bg-gray-100 text-gray-600 border border-gray-200' :
-                        'bg-red-50 text-red-600 border border-red-200'
-                      }`}>
+                      <h3 className="text-xl font-bold text-white line-clamp-1">{event.title}</h3>
+                      <span className={`px-2.5 py-1 text-xs font-semibold rounded-full uppercase ${event.status === 'upcoming' ? 'bg-sky-500/30 text-sky-200 border border-sky-400' :
+                          event.status === 'ongoing' ? 'bg-emerald-500/30 text-emerald-200 border border-emerald-400' :
+                            event.status === 'completed' ? 'bg-gray-500/30 text-gray-200 border border-gray-400' :
+                              'bg-red-500/30 text-red-200 border border-red-400'
+                        }`}>
                         {event.status}
                       </span>
                     </div>
 
-                    <p className="text-gray-600 text-sm mb-4 line-clamp-2 h-10">
+                    <p className="text-sky-100 text-sm mb-4 line-clamp-2 h-10">
                       {event.description || 'No description provided.'}
                     </p>
 
-                    <div className="space-y-2.5 text-sm text-gray-600">
+                    <div className="space-y-2.5 text-sm text-sky-200">
                       <p className="flex items-center gap-2">
-                        <FaCalendar className="text-primary-500 flex-shrink-0" />
+                        <FaCalendar className="text-cyan-400 flex-shrink-0" />
                         {new Date(event.date).toLocaleDateString(undefined, {
                           weekday: 'long',
                           year: 'numeric',
@@ -117,20 +115,20 @@ export function Events() {
                         })}
                       </p>
                       <p className="flex items-center gap-2">
-                        <FaMapMarkerAlt className="text-primary-500 flex-shrink-0" />
+                        <FaMapMarkerAlt className="text-emerald-400 flex-shrink-0" />
                         {event.location}
                       </p>
                       <p className="flex items-center gap-2">
-                        <FaUsers className="text-primary-500 flex-shrink-0" />
+                        <FaUsers className="text-sky-400 flex-shrink-0" />
                         {event.attendees || 0} / {event.capacity} capacity
                       </p>
                     </div>
                   </div>
 
                   <div className="p-6 pt-0">
-                    <Link 
+                    <Link
                       to={`/feedback?eventId=${event._id}`}
-                      className="btn btn-primary w-full text-center flex items-center justify-center gap-2 hover:shadow-lg transition"
+                      className="btn btn-primary w-full text-center flex items-center justify-center gap-2 bg-gradient-to-r from-sky-500 to-cyan-500 text-white font-semibold px-4 py-3 rounded-lg hover:shadow-lg hover:shadow-cyan-500/50 transition"
                     >
                       Give Feedback <FaStar className="text-yellow-300" />
                     </Link>
@@ -143,7 +141,7 @@ export function Events() {
       </div>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-6 text-center text-sm border-t border-gray-800 mt-12">
+      <footer className="bg-gradient-to-r from-sky-950 to-slate-950 text-white py-6 text-center text-sm border-t border-sky-900 mt-12">
         <p>&copy; {new Date().getFullYear()} EventHub. All rights reserved.</p>
       </footer>
     </div>

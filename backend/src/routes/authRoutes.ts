@@ -5,6 +5,7 @@ import { User } from '../models/User.js';
 
 const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
+const MAIN_ADMIN_EMAIL = process.env.MAIN_ADMIN_EMAIL || 'admin@eventhub.com';
 
 // Register
 router.post('/register', async (req: Request, res: Response) => {
@@ -23,14 +24,29 @@ router.post('/register', async (req: Request, res: Response) => {
         }
 
         // Create new user
+        const isRegisteringAsAdmin = role === 'admin';
+        const isMainAdmin = email.toLowerCase() === MAIN_ADMIN_EMAIL;
+
         const newUser = new User({
             name,
             email: email.toLowerCase(),
             password,
             role: role || 'attendee',
+            // Attendees are approved by default. Admins need approval unless it's the main admin.
+            isApproved: !isRegisteringAsAdmin || isMainAdmin,
         });
 
         await newUser.save();
+
+        // If it's a new admin registration (not the main one), notify and exit without token
+        if (isRegisteringAsAdmin && !isMainAdmin) {
+            console.log(`[ACTION REQUIRED] New admin registration request from ${email}. Please approve this at the database level or via an admin panel.`);
+            // NOTE: Here is where you would integrate Nodemailer to send an actual email to MAIN_ADMIN_EMAIL
+            
+            return res.status(201).json({
+                message: 'Admin registration request submitted. Please wait for approval from the main admin before logging in.',
+            });
+        }
 
         // Generate token
         const token = jwt.sign(
@@ -68,6 +84,11 @@ router.post('/login', async (req: Request, res: Response) => {
         const user = await User.findOne({ email: email.toLowerCase() });
         if (!user) {
             return res.status(401).json({ message: 'Invalid email or password' });
+        }
+
+        // Check if admin is approved
+        if (user.role === 'admin' && (user as any).isApproved === false) {
+            return res.status(403).json({ message: 'Your admin account is pending approval by the main admin.' });
         }
 
         // Check password

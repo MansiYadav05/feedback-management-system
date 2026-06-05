@@ -65,7 +65,7 @@ export function AddEventModal({ onClose, onSubmit }: AddEventModalProps) {
                                 setFormData({ ...formData, title: e.target.value })
                                 setErrors({ ...errors, title: '' })
                             }}
-                            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 ${errors.title ? 'border-red-500' : 'border-gray-300'
+                            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 ${errors.title ? 'border-red-500' : 'border-gray-300'
                                 }`}
                             placeholder="Event title"
                         />
@@ -81,7 +81,7 @@ export function AddEventModal({ onClose, onSubmit }: AddEventModalProps) {
                                 setFormData({ ...formData, date: e.target.value })
                                 setErrors({ ...errors, date: '' })
                             }}
-                            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 ${errors.date ? 'border-red-500' : 'border-gray-300'
+                            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 ${errors.date ? 'border-red-500' : 'border-gray-300'
                                 }`}
                         />
                         {errors.date && <p className="text-red-500 text-sm mt-1">{errors.date}</p>}
@@ -96,7 +96,7 @@ export function AddEventModal({ onClose, onSubmit }: AddEventModalProps) {
                                 setFormData({ ...formData, location: e.target.value })
                                 setErrors({ ...errors, location: '' })
                             }}
-                            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 ${errors.location ? 'border-red-500' : 'border-gray-300'
+                            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 ${errors.location ? 'border-red-500' : 'border-gray-300'
                                 }`}
                             placeholder="Event location"
                         />
@@ -112,7 +112,7 @@ export function AddEventModal({ onClose, onSubmit }: AddEventModalProps) {
                                 setFormData({ ...formData, attendees: e.target.value })
                                 setErrors({ ...errors, attendees: '' })
                             }}
-                            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 ${errors.attendees ? 'border-red-500' : 'border-gray-300'
+                            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 ${errors.attendees ? 'border-red-500' : 'border-gray-300'
                                 }`}
                             placeholder="0"
                             min="1"
@@ -128,10 +128,10 @@ export function AddEventModal({ onClose, onSubmit }: AddEventModalProps) {
                                 setFormData({ ...formData, description: e.target.value })
                                 setErrors({ ...errors, description: '' })
                             }}
-                            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 ${errors.description ? 'border-red-500' : 'border-gray-300'
-                                }`}
-                            placeholder="Event description"
-                            rows={3}
+                            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 ${errors.description ? 'border-red-500' : 'border-gray-300'
+                                }`}}
+                        placeholder="Event description"
+                        rows={3}
                         />
                         {errors.description && <p className="text-red-500 text-sm mt-1">{errors.description}</p>}
                     </div>

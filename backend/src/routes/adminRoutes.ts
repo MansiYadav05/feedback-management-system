@@ -2,9 +2,11 @@ import express, { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { Event } from '../models/Event.js';
 import { Feedback } from '../models/Feedback.js';
+import { User } from '../models/User.js';
 
 const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
+const MAIN_ADMIN_EMAIL = process.env.MAIN_ADMIN_EMAIL || 'admin@eventhub.com';
 
 // Middleware to verify token and check admin role
 const adminAuth = async (req: any, res: Response, next: any) => {
@@ -21,6 +23,34 @@ const adminAuth = async (req: any, res: Response, next: any) => {
 
         req.userId = decoded.userId;
         req.userRole = decoded.role;
+        req.userEmail = decoded.email;
+        next();
+    } catch (error) {
+        res.status(401).json({ message: 'Invalid or expired token' });
+    }
+};
+
+// Middleware to verify main admin access
+const mainAdminAuth = async (req: any, res: Response, next: any) => {
+    try {
+        const token = req.headers.authorization?.split(' ')[1];
+        if (!token) {
+            return res.status(401).json({ message: 'No token provided' });
+        }
+
+        const decoded: any = jwt.verify(token, JWT_SECRET);
+        if (decoded.role !== 'admin') {
+            return res.status(403).json({ message: 'Admin access required' });
+        }
+
+        const user = await User.findById(decoded.userId);
+        if (!user || user.email !== MAIN_ADMIN_EMAIL) {
+            return res.status(403).json({ message: 'Main admin access required' });
+        }
+
+        req.userId = decoded.userId;
+        req.userRole = decoded.role;
+        req.userEmail = decoded.email;
         next();
     } catch (error) {
         res.status(401).json({ message: 'Invalid or expired token' });
@@ -155,6 +185,79 @@ router.delete('/event/:eventId', adminAuth, async (req: any, res: Response) => {
         await Feedback.deleteMany({ eventId });
 
         res.json({ message: 'Event deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ message: 'Server error', error });
+    }
+});
+
+// Get pending admin requests (main admin only)
+router.get('/pending-admins', mainAdminAuth, async (req: any, res: Response) => {
+    try {
+        const pendingAdmins = await User.find({
+            role: 'admin',
+            isApproved: false,
+        }).select('_id name email createdAt');
+
+        res.json({
+            pendingAdmins,
+            count: pendingAdmins.length,
+        });
+    } catch (error) {
+        res.status(500).json({ message: 'Server error', error });
+    }
+});
+
+// Approve admin (main admin only)
+router.post('/approve-admin/:userId', mainAdminAuth, async (req: any, res: Response) => {
+    try {
+        const { userId } = req.params;
+
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        if (user.role !== 'admin' || user.isApproved === true) {
+            return res.status(400).json({ message: 'User is not a pending admin' });
+        }
+
+        user.isApproved = true;
+        await user.save();
+
+        res.json({
+            message: `Admin ${user.email} has been approved successfully`,
+            user: {
+                id: user._id,
+                name: user.name,
+                email: user.email,
+                isApproved: user.isApproved,
+            },
+        });
+    } catch (error) {
+        res.status(500).json({ message: 'Server error', error });
+    }
+});
+
+// Reject/Delete admin (main admin only)
+router.post('/reject-admin/:userId', mainAdminAuth, async (req: any, res: Response) => {
+    try {
+        const { userId } = req.params;
+
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        if (user.role !== 'admin' || user.isApproved === true) {
+            return res.status(400).json({ message: 'User is not a pending admin' });
+        }
+
+        const email = user.email;
+        await User.findByIdAndDelete(userId);
+
+        res.json({
+            message: `Admin ${email} has been rejected and removed`,
+        });
     } catch (error) {
         res.status(500).json({ message: 'Server error', error });
     }
