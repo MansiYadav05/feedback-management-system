@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import {
-  FaChartBar, FaStar, FaCalendar, FaMapMarkerAlt, FaUsers, FaClipboardList, FaBullseye, FaLock, FaRocket, FaHandshake, FaArrowRight
+  FaChartBar, FaStar, FaCalendar, FaMapMarkerAlt, FaUsers, FaClipboardList, FaBullseye, FaLock, FaRocket, FaHandshake, FaArrowRight, FaComment
 } from 'react-icons/fa'
 
 export function Home() {
@@ -19,7 +19,7 @@ export function Home() {
       location: 'Delhi',
       attendees: 1200,
       rating: 4.9,
-      image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=300&fit=crop'
+      image: 'https://dublintechweek.com/wp-content/uploads/2024/12/DTS25-2.jpg'
     },
     {
       id: 2,
@@ -37,28 +37,28 @@ export function Home() {
       location: 'Bangalore, Karnataka',
       attendees: 80,
       rating: 4.8,
-      image: 'https://images.unsplash.com/photo-1591453089816-0fbb469e7ae5?w=500&h=300&fit=crop'
+      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeylUteWI50ql3FUN_FhmgSGF8EKwU1FN0yg&s'
     }
   ]
 
   const testimonials = [
     {
       id: 1,
-      name: 'Sarah Johnson',
+      name: 'Aman Datta',
       role: 'Event Organizer',
       content: 'This platform made it so easy to collect and analyze feedback from our events. Highly recommend!',
       icon: FaClipboardList
     },
     {
       id: 2,
-      name: 'Michael Chen',
+      name: 'Krisha Jain',
       role: 'Conference Manager',
       content: 'The detailed analytics help us improve every event. Our attendees love the streamlined feedback process.',
       icon: FaChartBar
     },
     {
       id: 3,
-      name: 'Emily Rodriguez',
+      name: 'Rishabh Mehra',
       role: 'Corporate Events Lead',
       content: 'Best investment for our event management. The insights we gained are invaluable for future events.',
       icon: FaStar
@@ -105,7 +105,7 @@ export function Home() {
         <div className="container py-4 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
             <FaChartBar className="text-2xl bg-gradient-to-r from-sky-500 to-cyan-500 text-transparent bg-clip-text" />
-            <span className="text-xl font-bold bg-gradient-to-r from-sky-600 via-cyan-500 to-emerald-600 text-transparent bg-clip-text">🎯 EventHub</span>
+            <span className="text-xl font-bold bg-gradient-to-r from-sky-600 via-cyan-500 to-emerald-600 text-transparent bg-clip-text">EventHub</span>
           </Link>
 
           <div className="hidden md:flex items-center gap-8">
@@ -114,6 +114,9 @@ export function Home() {
             </Link>
             <Link to="/feedback" className="text-gray-700 hover:text-sky-600 font-medium transition">
               Feedback
+            </Link>
+            <Link to="/all-feedbacks" className="text-gray-700 hover:text-sky-600 font-medium transition">
+              Community Wall
             </Link>
             <Link to="/view-feedback" className="text-gray-700 hover:text-sky-600 font-medium transition">
               Analytics
@@ -145,16 +148,19 @@ export function Home() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center relative z-10">
           <div className="space-y-6">
             <h1 className="text-5xl lg:text-6xl font-bold bg-gradient-to-r from-sky-600 via-cyan-500 to-emerald-600 bg-clip-text text-transparent">
-              🎉 Capture Event Feedback Effortlessly
+              Capture Event Feedback Effortlessly
             </h1>
             <p className="text-lg text-gray-700">
               Empower your events with real-time feedback collection and comprehensive analytics to drive continuous improvement.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Link to="/events" className="btn btn-primary flex items-center justify-center gap-2 bg-gradient-to-r from-sky-500 to-cyan-500 text-white font-semibold px-6 py-3 rounded-lg hover:shadow-lg hover:shadow-cyan-500/50 transition">
+              <Link to="/events" className="btn btn-primary flex items-center justify-center gap-2 bg-gradient-to-r from-sky-500 to-cyan-500 text-white font-semibold px-6 py-3 rounded-lg">
                 Browse Events <FaArrowRight className="text-sm" />
               </Link>
               <Link to="/feedback" className="btn btn-secondary flex items-center justify-center gap-2 bg-white border-2 border-sky-500 text-sky-600 font-semibold px-6 py-3 rounded-lg hover:bg-sky-50 transition">  Submit Feedback </Link>
+            <Link to="/all-feedbacks" className="btn btn-secondary flex items-center justify-center gap-2 bg-white border-2 border-emerald-500 text-emerald-600 font-semibold px-6 py-3 rounded-lg hover:bg-emerald-50 transition">
+              View Community Wall <FaComment className="text-sm" />
+            </Link>
             </div>
           </div>
           <div className="hidden lg:block relative">
@@ -289,7 +295,7 @@ export function Home() {
         <div className="absolute bottom-0 left-0 w-80 h-80 bg-cyan-500 rounded-full blur-3xl opacity-10 -ml-24 -mb-24"></div>
 
         <div className="container text-center text-white relative z-10">
-          <h2 className="text-4xl font-bold mb-4">✨ Ready to Transform Your Events?</h2>
+          <h2 className="text-4xl font-bold mb-4">Ready to Transform Your Events?</h2>
           <p className="text-lg text-sky-100 mb-8">Start collecting meaningful feedback today. It takes just minutes to get started.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link

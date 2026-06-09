@@ -11,7 +11,7 @@ export function AddEventModal({ onClose, onSubmit }: AddEventModalProps) {
         title: '',
         date: '',
         location: '',
-        attendees: '',
+        capacity: '',       // ✅ FIX: renamed from attendees → capacity
         description: '',
     })
     const [errors, setErrors] = useState<any>({})
@@ -20,10 +20,18 @@ export function AddEventModal({ onClose, onSubmit }: AddEventModalProps) {
         const newErrors: any = {}
 
         if (!formData.title.trim()) newErrors.title = 'Title is required'
-        if (!formData.date) newErrors.date = 'Date is required'
+        if (!formData.date) {
+            newErrors.date = 'Date is required'
+        } else {
+            // ✅ FIX: Validate date is not invalid (e.g. year 52003)
+            const parsed = new Date(formData.date)
+            if (isNaN(parsed.getTime())) {
+                newErrors.date = 'Please enter a valid date'
+            }
+        }
         if (!formData.location.trim()) newErrors.location = 'Location is required'
-        if (!formData.attendees || parseInt(formData.attendees) <= 0) {
-            newErrors.attendees = 'Valid attendee count is required'
+        if (!formData.capacity || parseInt(formData.capacity) <= 0) {
+            newErrors.capacity = 'Valid capacity is required'  // ✅ FIX
         }
         if (!formData.description.trim()) newErrors.description = 'Description is required'
 
@@ -39,9 +47,11 @@ export function AddEventModal({ onClose, onSubmit }: AddEventModalProps) {
             return
         }
 
+        // ✅ FIX: Send capacity (not attendees), and convert date to ISO string safely
         onSubmit({
             ...formData,
-            attendees: parseInt(formData.attendees)
+            date: new Date(formData.date).toISOString(),
+            capacity: parseInt(formData.capacity),
         })
     }
 
@@ -65,8 +75,7 @@ export function AddEventModal({ onClose, onSubmit }: AddEventModalProps) {
                                 setFormData({ ...formData, title: e.target.value })
                                 setErrors({ ...errors, title: '' })
                             }}
-                            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 ${errors.title ? 'border-red-500' : 'border-gray-300'
-                                }`}
+                            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 ${errors.title ? 'border-red-500' : 'border-gray-300'}`}
                             placeholder="Event title"
                         />
                         {errors.title && <p className="text-red-500 text-sm mt-1">{errors.title}</p>}
@@ -75,14 +84,15 @@ export function AddEventModal({ onClose, onSubmit }: AddEventModalProps) {
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Date</label>
                         <input
-                            type="date"
+                            type="datetime-local"
                             value={formData.date}
+                            min="2000-01-01T00:00"
+                            max="2100-12-31T23:59"
                             onChange={(e) => {
                                 setFormData({ ...formData, date: e.target.value })
                                 setErrors({ ...errors, date: '' })
                             }}
-                            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 ${errors.date ? 'border-red-500' : 'border-gray-300'
-                                }`}
+                            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 ${errors.date ? 'border-red-500' : 'border-gray-300'}`}
                         />
                         {errors.date && <p className="text-red-500 text-sm mt-1">{errors.date}</p>}
                     </div>
@@ -96,28 +106,27 @@ export function AddEventModal({ onClose, onSubmit }: AddEventModalProps) {
                                 setFormData({ ...formData, location: e.target.value })
                                 setErrors({ ...errors, location: '' })
                             }}
-                            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 ${errors.location ? 'border-red-500' : 'border-gray-300'
-                                }`}
+                            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 ${errors.location ? 'border-red-500' : 'border-gray-300'}`}
                             placeholder="Event location"
                         />
                         {errors.location && <p className="text-red-500 text-sm mt-1">{errors.location}</p>}
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Expected Attendees</label>
+                        {/* ✅ FIX: Label and field renamed to Capacity */}
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Capacity</label>
                         <input
                             type="number"
-                            value={formData.attendees}
+                            value={formData.capacity}
                             onChange={(e) => {
-                                setFormData({ ...formData, attendees: e.target.value })
-                                setErrors({ ...errors, attendees: '' })
+                                setFormData({ ...formData, capacity: e.target.value })
+                                setErrors({ ...errors, capacity: '' })
                             }}
-                            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 ${errors.attendees ? 'border-red-500' : 'border-gray-300'
-                                }`}
-                            placeholder="0"
+                            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 ${errors.capacity ? 'border-red-500' : 'border-gray-300'}`}
+                            placeholder="100"
                             min="1"
                         />
-                        {errors.attendees && <p className="text-red-500 text-sm mt-1">{errors.attendees}</p>}
+                        {errors.capacity && <p className="text-red-500 text-sm mt-1">{errors.capacity}</p>}
                     </div>
 
                     <div>
@@ -128,11 +137,11 @@ export function AddEventModal({ onClose, onSubmit }: AddEventModalProps) {
                                 setFormData({ ...formData, description: e.target.value })
                                 setErrors({ ...errors, description: '' })
                             }}
-                            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 ${errors.description ? 'border-red-500' : 'border-gray-300'
-                                }`}}
-                        placeholder="Event description"
-                        rows={3}
+                            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 ${errors.description ? 'border-red-500' : 'border-gray-300'}`}
+                            placeholder="Event description"
+                            rows={3}
                         />
+                        {/* ✅ FIX: Removed extra } that caused syntax error */}
                         {errors.description && <p className="text-red-500 text-sm mt-1">{errors.description}</p>}
                     </div>
 

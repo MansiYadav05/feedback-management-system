@@ -5,10 +5,12 @@ import { Feedback } from './pages/Feedback'
 import { ViewFeedback } from './pages/ViewFeedback'
 import { AdminLogin } from './pages/AdminLogin'
 import { AdminDashboard } from './pages/AdminDashboard'
+import { AllFeedbacks } from './pages/AllFeedback'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import './App.css'
 import './styles/PendingAdminsPanel.css'
+
 
 function App() {
   return (
@@ -19,6 +21,7 @@ function App() {
         <Route path="/events" element={<Events />} />
         <Route path="/feedback" element={<Feedback />} />
         <Route path="/view-feedback" element={<ViewFeedback />} />
+        <Route path="/all-feedbacks" element={<AllFeedbacks />} /> 
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
       </Routes>

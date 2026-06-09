@@ -8,7 +8,7 @@ interface Event {
   _id: string
   title: string
   description: string
-  date: string
+  date?: string
   location: string
 }
 
@@ -134,7 +134,7 @@ export function Feedback() {
 
       // Delay redirect to allow toast read-time
       setTimeout(() => {
-        navigate('/')
+        navigate('/all-feedbacks')
       }, 2000)
 
     } catch (err: any) {
@@ -214,11 +214,11 @@ export function Feedback() {
                   <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-sky-100">
                     <p className="flex items-center gap-2">
                       <FaCalendar className="text-white" />
-                      {new Date(activeEvent.date).toLocaleDateString(undefined, {
+                      {activeEvent.date ? new Date(activeEvent.date).toLocaleDateString(undefined, {
                         year: 'numeric',
                         month: 'short',
                         day: 'numeric'
-                      })}
+                      }) : 'Date TBD'}
                     </p>
                     <p className="flex items-center gap-2">
                       <FaMapMarkerAlt className="text-white" />

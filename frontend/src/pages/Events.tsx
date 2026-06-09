@@ -7,7 +7,7 @@ interface Event {
   _id: string
   title: string
   description: string
-  date: string
+  date?: string
   location: string
   capacity: number
   attendees: number
@@ -44,7 +44,7 @@ export function Events() {
         <div className="bg-gradient-to-r from-sky-600 via-cyan-500 to-emerald-500 border-b border-cyan-300/30">
           <div className="container py-12 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div>
-              <h1 className="text-4xl font-bold text-white mb-2">👀 Events Directory</h1>
+              <h1 className="text-4xl font-bold text-white mb-2">Events Directory</h1>
               <p className="text-sky-100 text-lg">Browse available events and provide your valuable feedback</p>
             </div>
             <Link
@@ -105,14 +105,14 @@ export function Events() {
                     <div className="space-y-2.5 text-sm text-sky-200">
                       <p className="flex items-center gap-2">
                         <FaCalendar className="text-cyan-400 flex-shrink-0" />
-                        {new Date(event.date).toLocaleDateString(undefined, {
+                        {event.date ? new Date(event.date).toLocaleDateString(undefined, {
                           weekday: 'long',
                           year: 'numeric',
                           month: 'long',
                           day: 'numeric',
                           hour: '2-digit',
                           minute: '2-digit'
-                        })}
+                        }) : 'Date TBD'}
                       </p>
                       <p className="flex items-center gap-2">
                         <FaMapMarkerAlt className="text-emerald-400 flex-shrink-0" />

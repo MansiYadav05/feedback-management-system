@@ -6,9 +6,10 @@ import { User } from '../models/User.js';
 
 const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
-const MAIN_ADMIN_EMAIL = process.env.MAIN_ADMIN_EMAIL || 'admin@eventhub.com';
+const MAIN_ADMIN_EMAIL = process.env.MAIN_ADMIN_EMAIL;
 
-// Middleware to verify token and check admin role
+// ─── Auth Middleware ───────────────────────────────────────────────────────────
+
 const adminAuth = async (req: any, res: Response, next: any) => {
     try {
         const token = req.headers.authorization?.split(' ')[1];
@@ -21,6 +22,12 @@ const adminAuth = async (req: any, res: Response, next: any) => {
             return res.status(403).json({ message: 'Admin access required' });
         }
 
+        // ✅ FIX: Check isApproved from DB so pending admins can't access routes
+        const user = await User.findById(decoded.userId);
+        if (!user || !user.isApproved) {
+            return res.status(403).json({ message: 'Admin account pending approval' });
+        }
+
         req.userId = decoded.userId;
         req.userRole = decoded.role;
         req.userEmail = decoded.email;
@@ -30,7 +37,6 @@ const adminAuth = async (req: any, res: Response, next: any) => {
     }
 };
 
-// Middleware to verify main admin access
 const mainAdminAuth = async (req: any, res: Response, next: any) => {
     try {
         const token = req.headers.authorization?.split(' ')[1];
@@ -57,12 +63,13 @@ const mainAdminAuth = async (req: any, res: Response, next: any) => {
     }
 };
 
+// ─── Event Routes ──────────────────────────────────────────────────────────────
+
 // Create event (admin only)
 router.post('/create', adminAuth, async (req: any, res: Response) => {
     try {
         const { title, description, date, location, capacity } = req.body;
 
-        // Validation
         if (!title || !date || !location) {
             return res.status(400).json({ message: 'Please provide title, date, and location' });
         }
@@ -84,7 +91,12 @@ router.post('/create', adminAuth, async (req: any, res: Response) => {
             event: newEvent,
         });
     } catch (error) {
-        res.status(500).json({ message: 'Server error', error });
+        // ✅ FIX: Safe error serialization — prevents circular reference crash
+        console.error('🔴 Create event error:', error);
+        res.status(500).json({
+            message: 'Server error',
+            error: error instanceof Error ? error.message : 'Unknown error',
+        });
     }
 });
 
@@ -117,11 +129,16 @@ router.put('/:eventId', adminAuth, async (req: any, res: Response) => {
             event,
         });
     } catch (error) {
-        res.status(500).json({ message: 'Server error', error });
+        // ✅ FIX: Safe error serialization
+        console.error('🔴 Update event error:', error);
+        res.status(500).json({
+            message: 'Server error',
+            error: error instanceof Error ? error.message : 'Unknown error',
+        });
     }
 });
 
-// Get dashboard data (admin only) - events and feedback
+// Get dashboard data (admin only)
 router.get('/dashboard', adminAuth, async (req: any, res: Response) => {
     try {
         const events = await Event.find({ createdBy: req.userId });
@@ -135,17 +152,35 @@ router.get('/dashboard', adminAuth, async (req: any, res: Response) => {
             stats: {
                 totalEvents: events.length,
                 totalFeedbacks: feedbacks.length,
-                averageRating: feedbacks.length > 0
-                    ? (feedbacks.reduce((sum, f) => sum + f.rating, 0) / feedbacks.length).toFixed(2)
-                    : 0,
+                averageRating:
+                    feedbacks.length > 0
+                        ? (feedbacks.reduce((sum, f) => sum + f.rating, 0) / feedbacks.length).toFixed(2)
+                        : 0,
             },
+            categoryAverages: feedbacks.length > 0 ? {
+                organization: (feedbacks.reduce((sum, f) => sum + (f.categories?.organization || 0), 0) /
+                    Math.max(feedbacks.filter(f => f.categories?.organization).length, 1)).toFixed(2),
+                content: (feedbacks.reduce((sum, f) => sum + (f.categories?.content || 0), 0) /
+                    Math.max(feedbacks.filter(f => f.categories?.content).length, 1)).toFixed(2),
+                venue: (feedbacks.reduce((sum, f) => sum + (f.categories?.venue || 0), 0) /
+                    Math.max(feedbacks.filter(f => f.categories?.venue).length, 1)).toFixed(2),
+                overall: (feedbacks.reduce((sum, f) => sum + (f.categories?.overall || 0), 0) /
+                    Math.max(feedbacks.filter(f => f.categories?.overall).length, 1)).toFixed(2),
+            } : {
+                organization: 0, content: 0, venue: 0, overall: 0
+            }
         });
     } catch (error) {
-        res.status(500).json({ message: 'Server error', error });
+        // ✅ FIX: Safe error serialization
+        console.error('🔴 Dashboard error:', error);
+        res.status(500).json({
+            message: 'Server error',
+            error: error instanceof Error ? error.message : 'Unknown error',
+        });
     }
 });
 
-// Get event feedback
+// Get feedbacks for a specific event (admin only)
 router.get('/:eventId/feedbacks', adminAuth, async (req: any, res: Response) => {
     try {
         const { eventId } = req.params;
@@ -163,11 +198,16 @@ router.get('/:eventId/feedbacks', adminAuth, async (req: any, res: Response) => 
 
         res.json({ feedbacks });
     } catch (error) {
-        res.status(500).json({ message: 'Server error', error });
+        // ✅ FIX: Safe error serialization
+        console.error('🔴 Get feedbacks error:', error);
+        res.status(500).json({
+            message: 'Server error',
+            error: error instanceof Error ? error.message : 'Unknown error',
+        });
     }
 });
 
-// Delete event (admin only)
+// Delete event + its feedbacks (admin only)
 router.delete('/event/:eventId', adminAuth, async (req: any, res: Response) => {
     try {
         const { eventId } = req.params;
@@ -186,9 +226,16 @@ router.delete('/event/:eventId', adminAuth, async (req: any, res: Response) => {
 
         res.json({ message: 'Event deleted successfully' });
     } catch (error) {
-        res.status(500).json({ message: 'Server error', error });
+        // ✅ FIX: Safe error serialization
+        console.error('🔴 Delete event error:', error);
+        res.status(500).json({
+            message: 'Server error',
+            error: error instanceof Error ? error.message : 'Unknown error',
+        });
     }
 });
+
+// ─── Admin Management Routes ───────────────────────────────────────────────────
 
 // Get pending admin requests (main admin only)
 router.get('/pending-admins', mainAdminAuth, async (req: any, res: Response) => {
@@ -203,7 +250,12 @@ router.get('/pending-admins', mainAdminAuth, async (req: any, res: Response) => 
             count: pendingAdmins.length,
         });
     } catch (error) {
-        res.status(500).json({ message: 'Server error', error });
+        // ✅ FIX: Safe error serialization
+        console.error('🔴 Pending admins error:', error);
+        res.status(500).json({
+            message: 'Server error',
+            error: error instanceof Error ? error.message : 'Unknown error',
+        });
     }
 });
 
@@ -234,11 +286,16 @@ router.post('/approve-admin/:userId', mainAdminAuth, async (req: any, res: Respo
             },
         });
     } catch (error) {
-        res.status(500).json({ message: 'Server error', error });
+        // ✅ FIX: Safe error serialization
+        console.error('🔴 Approve admin error:', error);
+        res.status(500).json({
+            message: 'Server error',
+            error: error instanceof Error ? error.message : 'Unknown error',
+        });
     }
 });
 
-// Reject/Delete admin (main admin only)
+// Reject/Delete pending admin (main admin only)
 router.post('/reject-admin/:userId', mainAdminAuth, async (req: any, res: Response) => {
     try {
         const { userId } = req.params;
@@ -259,7 +316,12 @@ router.post('/reject-admin/:userId', mainAdminAuth, async (req: any, res: Respon
             message: `Admin ${email} has been rejected and removed`,
         });
     } catch (error) {
-        res.status(500).json({ message: 'Server error', error });
+        // ✅ FIX: Safe error serialization
+        console.error('🔴 Reject admin error:', error);
+        res.status(500).json({
+            message: 'Server error',
+            error: error instanceof Error ? error.message : 'Unknown error',
+        });
     }
 });
 

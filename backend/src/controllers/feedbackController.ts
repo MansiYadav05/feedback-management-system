@@ -20,6 +20,15 @@ export const createFeedback = async (req: Request, res: Response) => {
     }
 };
 
+export const getAllFeedback = async (req: Request, res: Response) => {
+    try {
+        const feedbacks = await Feedback.find().populate('eventId').sort({ createdAt: -1 });
+        res.json(feedbacks);
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching all feedback', error });
+    }
+};
+
 export const getFeedbackByEvent = async (req: Request, res: Response) => {
     try {
         const feedback = await Feedback.find({
