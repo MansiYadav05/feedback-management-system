@@ -11,7 +11,6 @@ interface Event {
   location: string
   capacity: number
   attendees: number
-  status: 'upcoming' | 'ongoing' | 'completed' | 'cancelled'
 }
 
 export function Events() {
@@ -90,14 +89,13 @@ export function Events() {
                     <div className="flex justify-between items-start mb-3">
                       <h3 className="text-xl font-bold text-white line-clamp-1">{event.title}</h3>
                       <span className={`px-2.5 py-1 text-xs font-semibold rounded-full uppercase ${event.status === 'upcoming' ? 'bg-sky-500/30 text-sky-200 border border-sky-400' :
-                          event.status === 'ongoing' ? 'bg-emerald-500/30 text-emerald-200 border border-emerald-400' :
-                            event.status === 'completed' ? 'bg-gray-500/30 text-gray-200 border border-gray-400' :
-                              'bg-red-500/30 text-red-200 border border-red-400'
+                        event.status === 'ongoing' ? 'bg-emerald-500/30 text-emerald-200 border border-emerald-400' :
+                          event.status === 'completed' ? 'bg-gray-500/30 text-gray-200 border border-gray-400' :
+                            'bg-red-500/30 text-red-200 border border-red-400'
                         }`}>
                         {event.status}
                       </span>
                     </div>
-
                     <p className="text-sky-100 text-sm mb-4 line-clamp-2 h-10">
                       {event.description || 'No description provided.'}
                     </p>

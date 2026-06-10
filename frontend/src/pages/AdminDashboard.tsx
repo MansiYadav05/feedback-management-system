@@ -13,7 +13,6 @@ interface Event {
     location: string
     capacity: number
     attendees: number
-    status: 'upcoming' | 'ongoing' | 'completed' | 'cancelled'
 }
 
 interface Feedback {
@@ -323,9 +322,6 @@ export function AdminDashboard() {
                                             <p className="flex items-center gap-2">
                                                 <FaUsers className="text-emerald-500" />
                                                 {event.attendees || 0} / {event.capacity}
-                                            </p>
-                                            <p className="text-xs text-gray-500 mt-4 pt-3 border-t border-sky-100 uppercase font-bold">
-                                                Status: <span className="text-transparent bg-gradient-to-r from-sky-600 to-cyan-500 bg-clip-text">{event.status}</span>
                                             </p>
                                         </div>
                                     </div>

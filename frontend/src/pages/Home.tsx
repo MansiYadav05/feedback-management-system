@@ -116,7 +116,7 @@ export function Home() {
               Feedback
             </Link>
             <Link to="/all-feedbacks" className="text-gray-700 hover:text-sky-600 font-medium transition">
-              Community Wall
+              Community
             </Link>
             <Link to="/view-feedback" className="text-gray-700 hover:text-sky-600 font-medium transition">
               Analytics
@@ -157,11 +157,7 @@ export function Home() {
               <Link to="/events" className="btn btn-primary flex items-center justify-center gap-2 bg-gradient-to-r from-sky-500 to-cyan-500 text-white font-semibold px-6 py-3 rounded-lg">
                 Browse Events <FaArrowRight className="text-sm" />
               </Link>
-              <Link to="/feedback" className="btn btn-secondary flex items-center justify-center gap-2 bg-white border-2 border-sky-500 text-sky-600 font-semibold px-6 py-3 rounded-lg hover:bg-sky-50 transition">  Submit Feedback </Link>
-            <Link to="/all-feedbacks" className="btn btn-secondary flex items-center justify-center gap-2 bg-white border-2 border-emerald-500 text-emerald-600 font-semibold px-6 py-3 rounded-lg hover:bg-emerald-50 transition">
-              View Community Wall <FaComment className="text-sm" />
-            </Link>
-            </div>
+              <Link to="/feedback" className="btn btn-secondary flex items-center justify-center gap-2 bg-white border-2 border-sky-500 text-sky-600 font-semibold px-6 py-3 rounded-lg hover:bg-sky-50 transition">  Submit Feedback </Link>            </div>
           </div>
           <div className="hidden lg:block relative">
             <div className="absolute inset-0 bg-gradient-to-r from-sky-300 to-cyan-300 rounded-lg blur-xl opacity-40"></div>
@@ -223,9 +219,6 @@ export function Home() {
                     {event.attendees} attendees
                   </p>
                 </div>
-                <Link to={`/feedback?eventId=${event.id}`}
-                  className="btn btn-primary btn-sm w-full text-center bg-gradient-to-r from-sky-500 to-cyan-500 text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-cyan-500/50 transition">
-                  Give Feedback </Link>
               </div>
             </article>
           ))}

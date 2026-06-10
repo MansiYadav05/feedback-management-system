@@ -100,7 +100,7 @@ export function AdminLogin() {
                         <FaUser className="text-3xl text-white" />
                     </div>
                     <h1 className="text-4xl font-bold bg-gradient-to-r from-sky-600 via-cyan-500 to-emerald-600 text-transparent bg-clip-text">
-                        🎯 EventHub Admin
+                        EventHub Admin
                     </h1>
                 </div>
 
@@ -224,12 +224,7 @@ export function AdminLogin() {
 
                 {/* Back to Home */}
                 <div className="mt-6 text-center">
-                    <Link
-                        to="/"
-                        className="text-sky-600 hover:text-sky-700 font-semibold flex items-center justify-center gap-2 transition"
-                    >
-                        ← Back to Home
-                    </Link>
+                    <Link to="/" className="text-sky-600 hover:text-sky-700 font-semibold flex items-center justify-center gap-2 transition">Back to Home </Link>
                 </div>
             </div>
         </div>
