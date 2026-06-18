@@ -153,7 +153,7 @@ export function AdminDashboard() {
             <header className="bg-gradient-to-r from-sky-600 via-cyan-500 to-emerald-500 text-white shadow-2xl sticky top-0 z-40">
                 <div className="container py-8 flex items-center justify-between">
                     <div>
-                        <h1 className="text-4xl font-bold">Tech Event Management</h1>
+                        <h1 className="text-4xl text-sky-100 font-bold">Tech Event Management</h1>
                         <p className="text-sky-100 mt-1">Welcome, {admin?.name}</p>
                     </div>
                     <button
@@ -183,27 +183,6 @@ export function AdminDashboard() {
                     </div>
                 </div>
 
-                {/* Category Averages Section */}
-                {categoryStats && feedbacks.length > 0 && (
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                        <div className="bg-white/40 backdrop-blur-sm rounded-xl p-4 border border-sky-100 shadow-sm">
-                            <p className="text-[10px] font-bold text-sky-600 uppercase tracking-wider mb-1">Organization</p>
-                            <p className="text-2xl font-bold text-sky-900">{categoryStats.organization}/5</p>
-                        </div>
-                        <div className="bg-white/40 backdrop-blur-sm rounded-xl p-4 border border-sky-100 shadow-sm">
-                            <p className="text-[10px] font-bold text-cyan-600 uppercase tracking-wider mb-1">Content Quality</p>
-                            <p className="text-2xl font-bold text-cyan-900">{categoryStats.content}/5</p>
-                        </div>
-                        <div className="bg-white/40 backdrop-blur-sm rounded-xl p-4 border border-sky-100 shadow-sm">
-                            <p className="text-[10px] font-bold text-emerald-600 uppercase tracking-wider mb-1">Venue & Comfort</p>
-                            <p className="text-2xl font-bold text-emerald-900">{categoryStats.venue}/5</p>
-                        </div>
-                        <div className="bg-white/40 backdrop-blur-sm rounded-xl p-4 border border-sky-100 shadow-sm">
-                            <p className="text-[10px] font-bold text-indigo-600 uppercase tracking-wider mb-1">Value & Overall</p>
-                            <p className="text-2xl font-bold text-indigo-900">{categoryStats.overall}/5</p>
-                        </div>
-                    </div>
-                )}
 
                 {/* Add Event */}
                 <div className="bg-white rounded-2xl shadow-xl p-8 mb-8 border-2 border-sky-100">

@@ -181,7 +181,7 @@ export function Feedback() {
         <div className="bg-gradient-to-r from-sky-600 via-cyan-500 to-emerald-500 border-b border-cyan-300/30">
           <div className="container py-12 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div>
-              <h1 className="text-4xl font-bold text-white mb-2">🇶 Submit Feedback</h1>
+              <h1 className="text-4xl font-bold text-white mb-2">Submit Feedback</h1>
               <p className="text-sky-100 text-lg">We appreciate your review to help us build better events</p>
             </div>
             <Link

@@ -113,13 +113,10 @@ export function Home() {
               Events
             </Link>
             <Link to="/feedback" className="text-gray-700 hover:text-sky-600 font-medium transition">
-              Feedback
+              Give Feedback
             </Link>
             <Link to="/all-feedbacks" className="text-gray-700 hover:text-sky-600 font-medium transition">
               Community
-            </Link>
-            <Link to="/view-feedback" className="text-gray-700 hover:text-sky-600 font-medium transition">
-              Analytics
             </Link>
             <Link to="/admin/dashboard" className="text-gray-700 hover:text-sky-600 font-medium transition">
               Admin Portal
@@ -288,7 +285,7 @@ export function Home() {
         <div className="absolute bottom-0 left-0 w-80 h-80 bg-cyan-500 rounded-full blur-3xl opacity-10 -ml-24 -mb-24"></div>
 
         <div className="container text-center text-white relative z-10">
-          <h2 className="text-4xl font-bold mb-4">Ready to Transform Your Events?</h2>
+          <h2 className="text-4xl text-sky-100 font-bold mb-4">Ready to Transform Your Events?</h2>
           <p className="text-lg text-sky-100 mb-8">Start collecting meaningful feedback today. It takes just minutes to get started.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
@@ -312,7 +309,6 @@ export function Home() {
               <ul className="space-y-2">
                 <li><Link to="/events" className="hover:text-cyan-400 transition-colors">Events</Link></li>
                 <li><Link to="/feedback" className="hover:text-cyan-400 transition-colors">Feedback</Link></li>
-                <li><Link to="/view-feedback" className="hover:text-cyan-400 transition-colors">Analytics</Link></li>
                 <li><Link to="/admin/dashboard" className="hover:text-cyan-400 transition-colors">Admin Portal</Link></li>
               </ul>
             </div>
