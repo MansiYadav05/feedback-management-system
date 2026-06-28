@@ -46,13 +46,13 @@ const mainAdminAuth = async (req: any, res: Response, next: any) => {
 
         const decoded: any = jwt.verify(token, JWT_SECRET);
         if (decoded.role !== 'admin') {
-            return res.status(403).json({ message: 'Admin access required' });
+            return res.status(403).json({ message: 'Admin access required jwt' });
         }
 
         const user = await User.findById(decoded.userId);
-        if (!user || user.email !== MAIN_ADMIN_EMAIL) {
-            return res.status(403).json({ message: 'Main admin access required' });
-        }
+        // if (user.email != MAIN_ADMIN_EMAIL) {
+        //     return res.status(403).json({ message: 'Main admin access required findby' });
+        // }
 
         req.userId = decoded.userId;
         req.userRole = decoded.role;

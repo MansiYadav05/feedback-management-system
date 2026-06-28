@@ -298,10 +298,7 @@ export function AdminDashboard() {
                                                 <FaMapMarkerAlt className="text-cyan-500" />
                                                 {event.location}
                                             </p>
-                                            <p className="flex items-center gap-2">
-                                                <FaUsers className="text-emerald-500" />
-                                                {event.attendees || 0} / {event.capacity}
-                                            </p>
+                    
                                         </div>
                                     </div>
                                 </div>
